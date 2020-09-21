@@ -3,7 +3,9 @@
 Web Scraping using Telegram bot to channel example
 
 Sep/22/2020
-v1.0 ```working channel!```
+
+v1.0
+```working channel!```
 
 ## Maintainers
 
