@@ -4,8 +4,8 @@ Web Scraping using Telegram bot to channel example
 
 Sep/22/2020
 
-v1.0
-```working channel!```
+v1.1
+```Fix: "Loading..." Description```
 
 ## Maintainers
 
