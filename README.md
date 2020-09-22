@@ -6,8 +6,8 @@ Web Scraping using Telegram bot to channel example
 ## Changelog
 Sep/22/2020
 
-v1.1
-```Fix: "Loading..." Description```
+v1.2
+```Added temporary Document view```
 
 
 ## Requirements
