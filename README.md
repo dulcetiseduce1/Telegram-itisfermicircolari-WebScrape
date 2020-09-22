@@ -10,9 +10,13 @@ v1.1
 ##Requires
 
 python-telegram-bot
+
 lxml
+
 html5lib
+
 requests
+
 beautifulsoup4
 
 ## Maintainers
