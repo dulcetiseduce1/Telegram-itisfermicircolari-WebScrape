@@ -10,7 +10,7 @@ from telegram import update
 from telegram.ext import Updater, CommandHandler
 
 # tokenbot
-TOKEN = "1139007227:AAHsRnBbkKU41wzM8mUst6bMR49EXI8CtEE"
+TOKEN = "replacewithtoken"
 
 
 # comando start
