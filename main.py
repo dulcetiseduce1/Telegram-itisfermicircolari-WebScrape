@@ -6,14 +6,15 @@ import time
 import requests
 from bs4 import BeautifulSoup
 # cose di telegram
+from telegram import update
 from telegram.ext import Updater, CommandHandler
 
 # tokenbot
-TOKEN = "replacewithtoken"
+TOKEN = "1139007227:AAHsRnBbkKU41wzM8mUst6bMR49EXI8CtEE"
 
 
 # comando start
-def start(context):
+def start(update, context):
     source = requests.get('https://www.itisfermi.edu.it/comunicazioni/').text
     soup = BeautifulSoup(source, 'lxml')
     verificatitolo = soup.find('div', class_='blog-content').a.text
@@ -42,12 +43,18 @@ def start(context):
             soup = BeautifulSoup(source, 'lxml')
             link = soup.find('a', title=True)
             descrizione = soup.find('div', class_='blog-content').p.text
-            # stampa infromazioni
-            context.bot.send_message(chat_id='@itisfermicircolari',
-                                     disable_web_page_preview=True,
-                                     text="📰 " + verificatitolo[:-1] +
-                                          ("\n" + "🏷 " + descrizione +
-                                           "\n \n🔗 Link alla circolare: \n" + link['href']))
+            # verifica di Loading
+            if descrizione.find("Loading"):
+                context.bot.send_message(chat_id="@testmaistoastato", disable_web_page_preview=True,
+                                         text="📰 " + verificatitolo[:-1] +
+                                              ("\n🔗 Link della circolare \n" + link['href']))
+            else:
+                # stampa infromazioni
+                context.bot.send_message(chat_id='@itisfermicircolari',
+                                         disable_web_page_preview=True,
+                                         text="📰 " + verificatitolo[:-1] +
+                                              ("\n" + "🏷 " + descrizione +
+                                               "\n🔗 Link della circolare \n" + link['href']))
             # update titolo
             titolo = verificatitolo
         # attesa di 60 secondi prima di ripetere
