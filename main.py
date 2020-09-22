@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 # cose di telegram
 from telegram import update
 from telegram.ext import Updater, CommandHandler
+from telegram import ParseMode
 
 # tokenbot
 TOKEN = "replacewithtoken"
@@ -41,20 +42,28 @@ def start(update, context):
             # prelevamento informazioni
             source = requests.get('https://www.itisfermi.edu.it/comunicazioni/').text
             soup = BeautifulSoup(source, 'lxml')
-            link = soup.find('a', title=True)
             descrizione = soup.find('div', class_='blog-content').p.text
+            # linkdocumento
+            link = soup.find('a', title=True)
+            linkcircolare = (link['href'])
+            source = requests.get(linkcircolare).text
+            soup = BeautifulSoup(source, 'html.parser')
+            linkpdf = soup.find('a', class_='ead-document-btn')
+            linkpdfstampa = linkpdf['href']
             # verifica di Loading
             if descrizione.find("Loading"):
-                context.bot.send_message(chat_id="@testmaistoastato", disable_web_page_preview=True,
-                                         text="📰 " + verificatitolo[:-1] +
-                                              ("\n🔗 Link della circolare \n" + link['href']))
+                context.bot.send_message(chat_id="@itisfermicircolari",
+                                         disable_web_page_preview=False,
+                                         parse_mode=ParseMode.HTML,
+                                         text="📰 " + verificatitolo[:-1] + "\n"
+                                              + '<a href="' + linkpdfstampa + '">🔗 Allegato</a>')
             else:
                 # stampa infromazioni
                 context.bot.send_message(chat_id='@itisfermicircolari',
                                          disable_web_page_preview=True,
                                          text="📰 " + verificatitolo[:-1] +
-                                              ("\n" + "🏷 " + descrizione +
-                                               "\n🔗 Link della circolare \n" + link['href']))
+                                              "\n" + "🏷 " + descrizione +
+                                              "\n🔗 Link della circolare \n" + link['href'])
             # update titolo
             titolo = verificatitolo
         # attesa di 60 secondi prima di ripetere
