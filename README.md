@@ -2,10 +2,13 @@
 
 Web Scraping using Telegram bot to channel example
 
+
+## Changelog
 Sep/22/2020
 
 v1.1
 ```Fix: "Loading..." Description```
+
 
 ## Requirements
 
@@ -18,6 +21,7 @@ html5lib
 requests
 
 beautifulsoup4
+
 
 ## Maintainers
 
