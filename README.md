@@ -4,10 +4,10 @@ Web Scraping using Telegram bot to channel example
 
 
 ## Changelog
-Sep/22/2020
+Sep/23/2020
 
-v1.2
-```Added temporary Document view```
+v1.3
+```Add Exception Handler```
 
 
 ## Requirements
