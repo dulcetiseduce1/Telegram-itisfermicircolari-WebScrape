@@ -12,7 +12,7 @@ from telegram import ParseMode
 
 # tokenbot
 TOKEN = "replacewithtoken"
-chatid = "@replacewithchannel
+chatid = "@replacewithchatid"
 
 # comando start
 def start(update, context):
@@ -22,11 +22,9 @@ def start(update, context):
     soup = BeautifulSoup(source, 'lxml')
     verificatitolo = soup.find('div', class_='blog-content').a.text
     titolo = soup.find('div', class_='blog-content').a.text
-
     # loop
-
     while True:
-        # verifica del  titolo
+        # verifica del titolo che si ripete in loop
         if titolo == verificatitolo:
             # debug
             now = datetime.datetime.now()
@@ -35,9 +33,8 @@ def start(update, context):
             source = requests.get('https://www.itisfermi.edu.it/comunicazioni/').text
             soup = BeautifulSoup(source, 'lxml')
             verificatitolo = soup.find('div', class_='blog-content').a.text
-
+        # stampa della nuova circolare
         else:
-            # stampda della nuova circolare
             # debug
             now = datetime.datetime.now()
             print(now.strftime('%Y-%m-%d %H:%M:%S') + ' nuova circolare')
@@ -60,15 +57,18 @@ def start(update, context):
                     source = requests.get(linkcircolare).text
                     soup = BeautifulSoup(source, 'html.parser')
                     linkpdf = soup.find('a', class_='ead-document-btn')
+                    # handle exception
+                    # TypeError: href...
+                    # se nella descrizione non c'è nessun file stampa il linkcricolare
                     try:
                         linkpdfstampa = linkpdf['href']
                     except TypeError:
-                        # stampa informazioni
                         context.bot.send_message(chat_id=chatid,
                                                  disable_web_page_preview=True,
                                                  text="📰 " + verificatitolo[:-1] +
                                                       "\n" + "🏷 " + descrizione +
                                                       "\n🔗 Link della circolare \n" + linkcircolare)
+                # se nella descrizione c'è loading stampa il linkpdf
                 else:
                     context.bot.send_message(chat_id=chatid,
                                              disable_web_page_preview=False,
