@@ -12,12 +12,12 @@ from telegram import ParseMode
 
 # tokenbot
 TOKEN = "replacewithtoken"
-
+chatid = "@replacewithchannel
 
 # comando start
 def start(update, context):
     # dichiaro descrizione come global per la exception
-    global descrizione
+    global descrizione, linkpdfstampa, linkpdf
     source = requests.get('https://www.itisfermi.edu.it/comunicazioni/').text
     soup = BeautifulSoup(source, 'lxml')
     verificatitolo = soup.find('div', class_='blog-content').a.text
@@ -54,25 +54,27 @@ def start(update, context):
                 descrizione = soup.find('div', class_='blog-content').p.text
             except AttributeError:
                 descrizione = "Nessuna Descrizione"
-            else:
+            finally:
                 # verifica di Loading
                 if descrizione.find("Loading"):
                     source = requests.get(linkcircolare).text
                     soup = BeautifulSoup(source, 'html.parser')
                     linkpdf = soup.find('a', class_='ead-document-btn')
-                    linkpdfstampa = linkpdf['href']
-                    context.bot.send_message(chat_id="@itisfermicircolari",
+                    try:
+                        linkpdfstampa = linkpdf['href']
+                    except TypeError:
+                        # stampa informazioni
+                        context.bot.send_message(chat_id=chatid,
+                                                 disable_web_page_preview=True,
+                                                 text="📰 " + verificatitolo[:-1] +
+                                                      "\n" + "🏷 " + descrizione +
+                                                      "\n🔗 Link della circolare \n" + linkcircolare)
+                else:
+                    context.bot.send_message(chat_id=chatid,
                                              disable_web_page_preview=False,
                                              parse_mode=ParseMode.HTML,
                                              text="📰 " + verificatitolo[:-1] + "\n"
                                                   + '<a href="' + linkpdfstampa + '">🔗 Allegato</a>')
-                else:
-                    # stampa informazioni
-                    context.bot.send_message(chat_id='@itisfermicircolari',
-                                             disable_web_page_preview=True,
-                                             text="📰 " + verificatitolo[:-1] +
-                                                  "\n" + "🏷 " + descrizione +
-                                                  "\n🔗 Link della circolare \n" + linkcircolare)
                 # update titolo
                 titolo = verificatitolo
         # attesa di 60 secondi prima di ripetere
