@@ -6,8 +6,8 @@ Web Scraping using Telegram bot to channel example
 ## Changelog
 Sep/23/2020
 
-v1.3
-```Add Exception Handler```
+v1.4
+```Add Exception Handler + fix```
 
 
 ## Requirements
