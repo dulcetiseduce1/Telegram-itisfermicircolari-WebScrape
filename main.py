@@ -16,6 +16,8 @@ TOKEN = "replacewithtoken"
 
 # comando start
 def start(update, context):
+    # dichiaro descrizione come global per la exception
+    global descrizione
     source = requests.get('https://www.itisfermi.edu.it/comunicazioni/').text
     soup = BeautifulSoup(source, 'lxml')
     verificatitolo = soup.find('div', class_='blog-content').a.text
@@ -42,30 +44,37 @@ def start(update, context):
             # prelevamento informazioni
             source = requests.get('https://www.itisfermi.edu.it/comunicazioni/').text
             soup = BeautifulSoup(source, 'lxml')
-            descrizione = soup.find('div', class_='blog-content').p.text
             # linkdocumento
             link = soup.find('a', title=True)
             linkcircolare = (link['href'])
-            source = requests.get(linkcircolare).text
-            soup = BeautifulSoup(source, 'html.parser')
-            linkpdf = soup.find('a', class_='ead-document-btn')
-            linkpdfstampa = linkpdf['href']
-            # verifica di Loading
-            if descrizione.find("Loading"):
-                context.bot.send_message(chat_id="@itisfermicircolari",
-                                         disable_web_page_preview=False,
-                                         parse_mode=ParseMode.HTML,
-                                         text="📰 " + verificatitolo[:-1] + "\n"
-                                              + '<a href="' + linkpdfstampa + '">🔗 Allegato</a>')
+            # handle exception
+            #    descrizione = soup.find('div', class_='blog-content').p.text
+            #    AttributeError: 'NoneType' object has no attribute 'text'
+            try:
+                descrizione = soup.find('div', class_='blog-content').p.text
+            except AttributeError:
+                descrizione = "Nessuna Descrizione"
             else:
-                # stampa infromazioni
-                context.bot.send_message(chat_id='@itisfermicircolari',
-                                         disable_web_page_preview=True,
-                                         text="📰 " + verificatitolo[:-1] +
-                                              "\n" + "🏷 " + descrizione +
-                                              "\n🔗 Link della circolare \n" + link['href'])
-            # update titolo
-            titolo = verificatitolo
+                # verifica di Loading
+                if descrizione.find("Loading"):
+                    source = requests.get(linkcircolare).text
+                    soup = BeautifulSoup(source, 'html.parser')
+                    linkpdf = soup.find('a', class_='ead-document-btn')
+                    linkpdfstampa = linkpdf['href']
+                    context.bot.send_message(chat_id="@itisfermicircolari",
+                                             disable_web_page_preview=False,
+                                             parse_mode=ParseMode.HTML,
+                                             text="📰 " + verificatitolo[:-1] + "\n"
+                                                  + '<a href="' + linkpdfstampa + '">🔗 Allegato</a>')
+                else:
+                    # stampa informazioni
+                    context.bot.send_message(chat_id='@itisfermicircolari',
+                                             disable_web_page_preview=True,
+                                             text="📰 " + verificatitolo[:-1] +
+                                                  "\n" + "🏷 " + descrizione +
+                                                  "\n🔗 Link della circolare \n" + linkcircolare)
+                # update titolo
+                titolo = verificatitolo
         # attesa di 60 secondi prima di ripetere
         time.sleep(60)
 
