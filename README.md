@@ -17,8 +17,6 @@ Thanks to https://github.com/miglioreivan
 
 python-telegram-bot
 
-html5lib
-
 requests
 
 beautifulsoup4
