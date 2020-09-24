@@ -19,7 +19,7 @@ def start(update, context):
     # dichiaro descrizione come global per la exception
     global descrizione, linkpdfstampa, linkpdf
     source = requests.get('https://www.itisfermi.edu.it/comunicazioni/').text
-    soup = BeautifulSoup(source, 'lxml')
+    soup = BeautifulSoup(source, 'html.parser')
     verificatitolo = soup.find('div', class_='blog-content').a.text
     titolo = soup.find('div', class_='blog-content').a.text
     # loop
@@ -31,7 +31,7 @@ def start(update, context):
             print(now.strftime('%Y-%m-%d %H:%M:%S') + ' check')
             # aggiornamento di verificatitolo
             source = requests.get('https://www.itisfermi.edu.it/comunicazioni/').text
-            soup = BeautifulSoup(source, 'lxml')
+            soup = BeautifulSoup(source, 'html.parser')
             verificatitolo = soup.find('div', class_='blog-content').a.text
         # stampa della nuova circolare
         else:
@@ -40,7 +40,7 @@ def start(update, context):
             print(now.strftime('%Y-%m-%d %H:%M:%S') + ' nuova circolare')
             # prelevamento informazioni
             source = requests.get('https://www.itisfermi.edu.it/comunicazioni/').text
-            soup = BeautifulSoup(source, 'lxml')
+            soup = BeautifulSoup(source, 'html.parser')
             # linkdocumento
             link = soup.find('a', title=True)
             linkcircolare = (link['href'])
