@@ -17,8 +17,6 @@ Thanks to https://github.com/miglioreivan
 
 python-telegram-bot
 
-lxml
-
 html5lib
 
 requests
