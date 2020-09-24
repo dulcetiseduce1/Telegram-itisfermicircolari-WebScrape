@@ -77,8 +77,8 @@ def start(update, context):
                                                   + '<a href="' + linkpdfstampa + '">🔗 Allegato</a>')
                 # update titolo
                 titolo = verificatitolo
-        # attesa di 60 secondi prima di ripetere
-        time.sleep(60)
+        # attesa di 4 minuti
+        time.sleep(240)
 
 
 def main():
