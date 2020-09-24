@@ -9,7 +9,8 @@ Sep/23/2020
 
 v1.5
 ```Fix Multiple Documents
-Thanks to https://github.com/miglioreivan```
+Thanks to https://github.com/miglioreivan
+```
 
 ## Requirements
 
