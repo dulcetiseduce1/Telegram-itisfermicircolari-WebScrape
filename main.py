@@ -14,6 +14,7 @@ from telegram import ParseMode
 TOKEN = "replacewithtoken"
 chatid = "@replacewithchatid"
 
+
 # comando start
 def start(update, context):
     # dichiaro descrizione come global per la exception
@@ -70,11 +71,23 @@ def start(update, context):
                                                       "\n🔗 Link della circolare \n" + linkcircolare)
                     # se nella descrizione c'è loading stampa il linkpdf
                     else:
-                        context.bot.send_message(chat_id=chatid,
-                                                 disable_web_page_preview=False,
-                                                 parse_mode=ParseMode.HTML,
-                                                 text="📰 " + verificatitolo[:-1] + "\n"
-                                                      + '<a href="' + linkpdfstampa + '">🔗 Allegato</a>')
+                        # i=1 equivale al primo pdf e 2 ai pdf successivi
+                        i = 1
+                        for linkloop in soup.find_all("a", attrs={"class": "ead-document-btn", "target": "_blank"}):
+                            links = (linkloop.get('href'))
+
+                            if i == 1:
+                                context.bot.send_message(chat_id=chatid,
+                                                         disable_web_page_preview=False,
+                                                         parse_mode=ParseMode.HTML,
+                                                         text="📰 " + verificatitolo[:-1] + "\n"
+                                                              + '<a href="' + links + '">🔗 Allegato</a>')
+                                i = 2
+                            else:
+                                context.bot.send_message(chat_id=chatid,
+                                                         disable_web_page_preview=False,
+                                                         parse_mode=ParseMode.HTML,
+                                                         text='<a href="' + links + '">🔗 Allegato</a>')
                 # update titolo
                 titolo = verificatitolo
         # attesa di 4 minuti
