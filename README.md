@@ -7,8 +7,9 @@ Status: Active
 ## Changelog
 Sep/23/2020
 
-v1.4
-```Add Exception Handler + fix```
+v1.5
+```Fix Multiple Documents
+Thanks to https://github.com/miglioreivan```
 
 ## Requirements
 
