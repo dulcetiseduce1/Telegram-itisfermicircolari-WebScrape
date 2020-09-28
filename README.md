@@ -7,10 +7,9 @@ Status: Active
 ## Changelog
 Sep/23/2020
 
-v1.5
+v1.6
 ```
-Fix Multiple Documents
-Thanks to https://github.com/miglioreivan
+hide full lenght links
 ```
 
 ## Requirements
