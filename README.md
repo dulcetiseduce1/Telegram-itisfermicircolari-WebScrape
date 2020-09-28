@@ -9,7 +9,7 @@ Sep/23/2020
 
 v1.6
 ```
-hide full lenght links
+Hide full lenght links
 ```
 
 ## Requirements
