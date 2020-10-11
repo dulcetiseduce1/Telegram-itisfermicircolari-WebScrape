@@ -7,9 +7,9 @@ Status: Active
 ## Changelog
 Sep/23/2020
 
-v1.6
+v1.7
 ```
-Hide full lenght links
+New code for emojis
 ```
 
 ## Requirements
