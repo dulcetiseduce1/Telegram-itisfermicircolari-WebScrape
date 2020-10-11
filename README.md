@@ -2,7 +2,6 @@
 
 Web Scraping using Telegram bot to channel
 
-Status: Active
 
 ## Changelog
 Sep/23/2020
