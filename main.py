@@ -1,3 +1,5 @@
+# per far funzionare le emoji sul rasp
+import emoji
 # stampa di debug con orario
 import datetime
 # tempo usato nel loop
@@ -9,6 +11,12 @@ from bs4 import BeautifulSoup
 from telegram import update
 from telegram.ext import Updater, CommandHandler
 from telegram import ParseMode
+
+# emoji
+newspaper = emoji.emojize(':newspaper:')
+label = emoji.emojize(':label:')
+clipboard = emoji.emojize(':clipboard:')
+linkemoji = emoji.emojize(':link:')
 
 # tokenbot
 TOKEN = "replacewithtoken"
@@ -25,6 +33,7 @@ def start(update, context):
     titolo = soup.find('div', class_='blog-content').a.text
     # loop
     while True:
+        context.bot.send_message(chat_id='@canaletest', text='check')
         # verifica del titolo che si ripete in loop
         if titolo == verificatitolo:
             # debug
@@ -67,10 +76,11 @@ def start(update, context):
                         context.bot.send_message(chat_id=chatid,
                                                  disable_web_page_preview=True,
                                                  parse_mode=ParseMode.HTML,
-                                                 text="📰 " + verificatitolo[:-1] +
-                                                      "\n" + "🏷 " + descrizione + "\n"
-                                                      + '<a href="' + linkcircolare + '">🔗 Link della circolare</a>')
-                    # se nella descrizione c'è loading stampa il linkpdf
+                                                 text=newspaper + " " + verificatitolo[:-1]
+                                                      + "\n" + label + " " + descrizione + "\n"
+                                                      + '<a href="' + linkcircolare + '">' + linkemoji
+                                                      + ' Link della circolare</a>')
+                        # se nella descrizione c'è loading stampa il linkpdf
                     else:
                         # i=1 equivale al primo pdf e 2 ai pdf successivi
                         i = 1
@@ -81,20 +91,22 @@ def start(update, context):
                                 context.bot.send_message(chat_id=chatid,
                                                          disable_web_page_preview=False,
                                                          parse_mode=ParseMode.HTML,
-                                                         text="📰 " + verificatitolo[:-1] + "\n"
-                                                              + '<a href="' + links + '">📋 Allegato</a>'"\n"
+                                                         text=newspaper + " " + verificatitolo[:-1] + "\n"
+                                                              + '<a href="' + links + '">' + clipboard
+                                                              + ' Allegato</a>' + "\n"
                                                               + '<a href="' + linkcircolare
-                                                              + '">🔗 Link della circolare</a>')
+                                                              + '">' + linkemoji + ' Link della circolare</a>')
                                 i = 2
                             else:
                                 context.bot.send_message(chat_id=chatid,
                                                          disable_web_page_preview=False,
                                                          parse_mode=ParseMode.HTML,
-                                                         text='<a href="' + links + '">📋 Allegato</a>')
+                                                         text='<a href="' + links + '">' + clipboard
+                                                              + ' Allegato</a>')
                 # update titolo
                 titolo = verificatitolo
-        # attesa di 4 minuti
-        time.sleep(240)
+        # attesa di 5 minuti
+        time.sleep(300)
 
 
 def main():
