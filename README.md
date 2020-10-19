@@ -19,6 +19,8 @@ requests
 
 beautifulsoup4
 
+emoji
+
 
 ## Maintainers
 
